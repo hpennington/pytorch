@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 # even when the C++ one is detected as "AppleClang".
 cmake_policy(SET CMP0010 NEW)
 cmake_policy(SET CMP0025 NEW)
+set(CMAKE_OSX_ARCHITECTURES "arm64")
 
 # Enables CMake to set LTO on compilers other than Intel.
 cmake_policy(SET CMP0069 NEW)
@@ -43,6 +44,7 @@ set(CMAKE_C_STANDARD   11 CACHE STRING "The C standard whose features are reques
 # ---[ Utils
 include(cmake/public/utils.cmake)
 
+string(APPEND CMAKE_CXX_FLAGS " -D_GLIBCXX_USE_CXX11_ABI=1")
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   include(cmake/CheckAbi.cmake)
   string(APPEND CMAKE_CXX_FLAGS " -D_GLIBCXX_USE_CXX11_ABI=${GLIBCXX_USE_CXX11_ABI}")
@@ -100,7 +102,7 @@ if(APPLE)
   set(CMAKE_MACOSX_RPATH ON)
   if(NOT IOS)
     # Determine if we can link against MPSGraph
-    set(MPS_FOUND OFF)
+    set(MPS_FOUND ON)
     execute_process(
       COMMAND bash -c "xcrun --sdk macosx --show-sdk-version"
       RESULT_VARIABLE _exit_code
@@ -135,7 +137,7 @@ if(APPLE)
   endif()
 endif()
 
-set(CPU_AARCH64 OFF)
+set(CPU_AARCH64 ON)
 set(CPU_INTEL OFF)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "(AMD64|x86_64)")
@@ -160,17 +162,18 @@ endif()
 # Note to developers: if you add an option below, make sure you also add it to
 # cmake/Summary.cmake so that the summary prints out the option values.
 include(CMakeDependentOption)
+option(SINGLETHREADED, ON)
 option(ATEN_NO_TEST "Do not build ATen test binaries" OFF)
 option(BUILD_BINARY "Build C++ binaries" OFF)
 option(BUILD_DOCS "Build Caffe2 documentation" OFF)
-option(BUILD_CUSTOM_PROTOBUF "Build and use Caffe2's own protobuf under third_party" ON)
-option(BUILD_PYTHON "Build Python binaries" ON)
-option(BUILD_CAFFE2 "Master flag to build Caffe2" OFF)
-option(BUILD_LITE_INTERPRETER "Master flag to build Lite Interpreter" OFF)
+option(BUILD_CUSTOM_PROTOBUF "Build and use Caffe2's own protobuf under third_party" OFF)
+option(BUILD_PYTHON "Build Python binaries" OFF)
+option(BUILD_CAFFE2 "Master flag to build Caffe2" ON)
+option(BUILD_LITE_INTERPRETER "Master flag to build Lite Interpreter" ON)
 cmake_dependent_option(
     BUILD_CAFFE2_OPS "Build Caffe2 operators" ON
-    "BUILD_CAFFE2" OFF)
-option(BUILD_SHARED_LIBS "Build libcaffe2.so" ON)
+    "BUILD_CAFFE2" ON)
+option(BUILD_SHARED_LIBS "Build libcaffe2.so" OFF)
 cmake_dependent_option(
     CAFFE2_LINK_LOCAL_PROTOBUF "If set, build protobuf inside libcaffe2.so." ON
     "BUILD_SHARED_LIBS AND BUILD_CUSTOM_PROTOBUF" OFF)
@@ -191,7 +194,7 @@ option(USE_CPP_CODE_COVERAGE "Compile C/C++ with code coverage flags" OFF)
 option(USE_COLORIZE_OUTPUT "Colorize output during compilation" ON)
 option(USE_ASAN "Use Address+Undefined Sanitizers" OFF)
 option(USE_TSAN "Use Thread Sanitizer" OFF)
-option(USE_CUDA "Use CUDA" ON)
+option(USE_CUDA "Use CUDA" OFF)
 cmake_dependent_option(
      BUILD_LAZY_CUDA_LINALG "Build cuda linalg ops as separate library" ON "USE_CUDA AND LINUX AND BUILD_PYTHON" OFF)
 cmake_dependent_option(
@@ -201,7 +204,7 @@ option(USE_FAST_NVCC "Use parallel NVCC build" OFF)
 cmake_dependent_option(USE_ROCM "Use ROCm" ON "LINUX" OFF)
 option(CAFFE2_STATIC_LINK_CUDA "Statically link CUDA libraries" OFF)
 cmake_dependent_option(
-    USE_CUDNN "Use cuDNN" ON
+    USE_CUDNN "Use cuDNN" OFF
     "USE_CUDA" OFF)
 cmake_dependent_option(
     USE_STATIC_CUDNN "Use cuDNN static libraries" OFF
@@ -212,7 +215,7 @@ cmake_dependent_option(
 cmake_dependent_option(
     USE_EXPERIMENTAL_CUDNN_V8_API "Use experimental cuDNN v8 API" ON
     "USE_CUDNN" OFF)
-option(USE_FBGEMM "Use FBGEMM (quantized 8-bit server operators)" ON)
+option(USE_FBGEMM "Use FBGEMM (quantized 8-bit server operators)" OFF)
 option(USE_KINETO "Use Kineto profiling library" ON)
 option(USE_CUPTI_SO "Use CUPTI as a shared library" ON)
 option(USE_FAKELOWP "Use FakeLowp operators" OFF)
@@ -224,11 +227,17 @@ option(USE_LITE_PROTO "Use lite protobuf instead of full." OFF)
 option(USE_LMDB "Use LMDB" OFF)
 option(USE_MAGMA "Use MAGMA" ON)
 option(USE_METAL "Use Metal for Caffe2 iOS build" ON)
-option(USE_PYTORCH_METAL "Use Metal for PyTorch iOS build" OFF)
-option(USE_PYTORCH_METAL_EXPORT "Export Metal models on MacOSX desktop" OFF)
-option(USE_NATIVE_ARCH "Use -march=native" OFF)
+option(USE_PYTORCH_METAL "Use Metal for PyTorch iOS build" ON)
+option(USE_PYTORCH_METAL_EXPORT "Export Metal models on MacOSX desktop" ON)
+option(USE_NATIVE_ARCH "Use -march=native" ON)
 cmake_dependent_option(
-    USE_MPS "Use MPS for macOS build" ON
+    USE_TBB "Use TBB" OFF
+    "USE_TBB" OFF)
+cmake_dependent_option(
+    USE_SYSTEM_TBB "Use system TBB" OFF
+    "USE_SYSTEM_TBB" OFF)
+cmake_dependent_option(
+    USE_MPS "Use MPS for macOS build" OFF
     "MPS_FOUND" OFF)
 cmake_dependent_option(
     USE_NCCL "Use NCCL" ON
@@ -253,8 +262,8 @@ option(USE_NUMPY "Use NumPy" ON)
 option(USE_OBSERVERS "Use observers module." OFF)
 option(USE_OPENCL "Use OpenCL" OFF)
 option(USE_OPENCV "Use OpenCV" OFF)
-option(USE_OPENMP "Use OpenMP for parallel code" ON)
-option(USE_PRECOMPILED_HEADERS "Use pre-compiled headers to accelerate build." OFF)
+option(USE_OPENMP "Use OpenMP for parallel code" OFF)
+option(USE_PRECOMPILED_HEADERS "Use pre-compiled headers to accelerate build." ON)
 
 option(USE_PROF "Use profiling" OFF)
 option(USE_QNNPACK "Use QNNPACK (quantized 8-bit operators)" ON)
@@ -276,7 +285,7 @@ if(NOT DEFINED USE_VULKAN)
 endif()
 
 option(USE_SLEEF_FOR_ARM_VEC256 "Use sleef for arm" OFF)
-option(USE_SOURCE_DEBUG_ON_MOBILE "Enable " ON)
+option(USE_SOURCE_DEBUG_ON_MOBILE "Enable " OFF)
 option(USE_LITE_INTERPRETER_PROFILER "Enable " ON)
 option(USE_VULKAN_FP16_INFERENCE "Vulkan - Use fp16 inference" OFF)
 option(USE_VULKAN_RELAXED_PRECISION "Vulkan - Use relaxed precision math in the kernels (mediump)" OFF)
@@ -302,7 +311,7 @@ cmake_dependent_option(
     USE_MKLDNN_CBLAS "Use CBLAS in MKLDNN" OFF
     "USE_MKLDNN" OFF)
 option(USE_STATIC_MKL "Prefer to link with MKL statically (Unix only)" OFF)
-option(USE_DISTRIBUTED "Use distributed" ON)
+option(USE_DISTRIBUTED "Use distributed" OFF)
 cmake_dependent_option(
     USE_MPI "Use MPI for Caffe2. Only available if USE_DISTRIBUTED is on." ON
     "USE_DISTRIBUTED" OFF)
@@ -335,7 +344,7 @@ cmake_dependent_option(
 option(USE_TBB "Use TBB (Deprecated)" OFF)
 cmake_dependent_option(
     USE_SYSTEM_TBB "Use system-provided Intel TBB." OFF "USE_TBB" OFF)
-option(ONNX_ML "Enable traditional ONNX ML API." ON)
+option(ONNX_ML "Enable traditional ONNX ML API." OFF)
 option(HAVE_SOVERSION "Whether to add SOVERSION to the shared objects" OFF)
 option(BUILD_LIBTORCH_CPU_WITH_DEBUG "Enable RelWithDebInfo for libtorch_cpu target only" OFF)
 cmake_dependent_option(USE_CCACHE "Attempt using CCache to wrap the compilation" ON "UNIX" OFF)
@@ -553,6 +562,7 @@ if(MSVC)
 endif(MSVC)
 
 string(APPEND CMAKE_CUDA_FLAGS " -Xfatbin -compress-all")
+string(APPEND CMAKE_CXX_FLAGS " -arch arm64")
 
 if(NOT MSVC)
   string(APPEND CMAKE_CUDA_FLAGS_DEBUG " -g -lineinfo --source-in-ptx")
@@ -620,7 +630,7 @@ if(INTERN_BUILD_MOBILE)
   endif()
   set(BUILD_PYTHON OFF)
   set(BUILD_FUNCTORCH OFF)
-  set(BUILD_CAFFE2_OPS OFF)
+  set(BUILD_CAFFE2_OPS ON)
   set(USE_DISTRIBUTED OFF)
   set(NO_API ON)
   set(USE_FBGEMM OFF)
@@ -681,11 +691,11 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # The below means we are cross compiling for arm64 or x86_64 on MacOSX
-if(NOT IOS AND CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_OSX_ARCHITECTURES MATCHES "^(x86_64|arm64)$")
-  set(CROSS_COMPILING_MACOSX TRUE)
+if(NOT IOS AND CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_OSX_ARCHITECTURES MATCHES "^(arm64)$")
+  set(CROSS_COMPILING_MACOSX 0)
   # We need to compile a universal protoc to not fail protobuf build
   # We set CMAKE_TRY_COMPILE_TARGET_TYPE to STATIC_LIBRARY (vs executable) to succeed the cmake compiler check for cross-compiling
-  set(protoc_build_command "./scripts/build_host_protoc.sh --other-flags -DCMAKE_OSX_ARCHITECTURES=\"x86_64;arm64\" -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY -DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_CXX_COMPILER_WORKS=1")
+  set(protoc_build_command "./scripts/build_host_protoc.sh --other-flags -DCMAKE_OSX_ARCHITECTURES=\"arm64\" -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY -DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_CXX_COMPILER_WORKS=1")
   # We write to a temp scriptfile because CMake COMMAND dislikes double quotes in commands
   file(WRITE ${PROJECT_SOURCE_DIR}/tmp_protoc_script.sh "#!/bin/bash\n${protoc_build_command}")
   file(COPY ${PROJECT_SOURCE_DIR}/tmp_protoc_script.sh DESTINATION ${PROJECT_SOURCE_DIR}/scripts/ FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)

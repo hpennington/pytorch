@@ -134,9 +134,11 @@ inline c10::optional<TempFile> try_make_tempfile(
 #else
   std::vector<char> filename = detail::make_filename(std::move(name_prefix));
   const int fd = mkstemp(filename.data());
+
   if (fd == -1) {
     return c10::nullopt;
   }
+
   // Don't make the string from string(filename.begin(), filename.end(), or
   // there will be a trailing '\0' at the end.
   return TempFile(filename.data(), fd);

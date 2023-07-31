@@ -28,6 +28,7 @@ CMAKE_ARGS=()
 CMAKE_ARGS+=("-DCMAKE_PREFIX_PATH=$($PYTHON -c 'import sysconfig; print(sysconfig.get_path("purelib"))')")
 CMAKE_ARGS+=("-DPYTHON_EXECUTABLE=$($PYTHON -c 'import sys; print(sys.executable)')")
 CMAKE_ARGS+=("-DBUILD_CUSTOM_PROTOBUF=OFF")
+CMAKE_ARGS+=("-DCMAKE_IOS_SDK_ROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
 
 # custom build with selected ops
 if [ -n "${SELECTED_OP_LIST}" ]; then
@@ -71,7 +72,8 @@ if [ -n "${IOS_PLATFORM:-}" ]; then
   fi
 else
   # IOS_PLATFORM is not set, default to OS, which builds iOS.
-  CMAKE_ARGS+=("-DIOS_PLATFORM=OS")
+  CMAKE_ARGS+=("-DIOS_PLATFORM=MAC_ARM64")
+  # CMAKE_ARGS+=("-DIOS_PLATFORM=OS")
 fi
 
 if [ -n "${IOS_ARCH:-}" ]; then

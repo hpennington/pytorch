@@ -19,6 +19,16 @@ CMAKE_ARGS+=("-DCMAKE_PREFIX_PATH=$(python -c 'import sysconfig; print(sysconfig
 CMAKE_ARGS+=("-DPYTHON_EXECUTABLE=$(python -c 'import sys; print(sys.executable)')")
 CMAKE_ARGS+=("-DBUILD_CUSTOM_PROTOBUF=OFF")
 CMAKE_ARGS+=("-DBUILD_SHARED_LIBS=OFF")
+CMAKE_ARGS+=("-DUSE_STATIC_DISPATCH=OFF")
+
+# Build protobuf compiler from third_party if configured to do so
+if [ -n "${USE_HOST_PROTOC:-}" ]; then
+    echo "USE_HOST_PROTOC is set; building protoc before building Caffe2..."
+    "$CAFFE2_ROOT/scripts/build_host_protoc.sh"
+    CUSTOM_PROTOC_EXECUTABLE="$CAFFE2_ROOT/build_host_protoc/bin/protoc"
+    echo "Built protoc $("$CUSTOM_PROTOC_EXECUTABLE" --version)"
+    CMAKE_ARGS+=("-DCAFFE2_CUSTOM_PROTOC_EXECUTABLE=$CUSTOM_PROTOC_EXECUTABLE")
+fi
 
 # custom build with selected ops
 if [ -n "${SELECTED_OP_LIST}" ]; then
@@ -48,11 +58,13 @@ if [ "x${BUILD_LITE_INTERPRETER}" == "x1" ]; then
 else
   CMAKE_ARGS+=("-DBUILD_LITE_INTERPRETER=OFF")
 fi
+CMAKE_ARGS+=("-DBUILD_LITE_INTERPRETER=ON")
 if [ "x${TRACING_BASED}" == "x1" ]; then
   CMAKE_ARGS+=("-DTRACING_BASED=ON")
 else
   CMAKE_ARGS+=("-DTRACING_BASED=OFF")
 fi
+CMAKE_ARGS+=("-DTRACING_BASED=ON")
 
 # Lightweight dispatch bypasses the PyTorch Dispatcher.
 if [ "${USE_LIGHTWEIGHT_DISPATCH}" == 1 ]; then
@@ -62,8 +74,24 @@ else
   CMAKE_ARGS+=("-DUSE_LIGHTWEIGHT_DISPATCH=OFF")
 fi
 
+CMAKE_ARGS+=("-DUSE_LIGHTWEIGHT_DISPATCH=ON")
+CMAKE_ARGS+=("-DSTATIC_DISPATCH_BACKEND=CPU")
 # Disable unused dependencies
-CMAKE_ARGS+=("-DUSE_ROCM=OFF")
+# CMAKE_ARGS+=("-DUSE_ROCM=OFF")
+# CMAKE_ARGS+=("-DUSE_CUDA=OFF")
+# CMAKE_ARGS+=("-DUSE_ITT=OFF")
+# CMAKE_ARGS+=("-DUSE_GFLAGS=OFF")
+# CMAKE_ARGS+=("-DUSE_OPENCV=OFF")
+# CMAKE_ARGS+=("-DUSE_LMDB=OFF")
+# CMAKE_ARGS+=("-DUSE_LEVELDB=OFF")
+# CMAKE_ARGS+=("-DUSE_MPI=OFF")
+CMAKE_ARGS+=("-DUSE_OPENMP=OFF")
+#CMAKE_ARGS+=("-DUSE_MKLDNN=OFF")
+# CMAKE_ARGS+=("-DUSE_NNPACK=OFF")
+# CMAKE_ARGS+=("-DUSE_NUMPY=OFF")
+# CMAKE_ARGS+=("-DUSE_BLAS=OFF")
+
+# Disable unused dependencies
 CMAKE_ARGS+=("-DUSE_CUDA=OFF")
 CMAKE_ARGS+=("-DUSE_ITT=OFF")
 CMAKE_ARGS+=("-DUSE_GFLAGS=OFF")
@@ -71,11 +99,27 @@ CMAKE_ARGS+=("-DUSE_OPENCV=OFF")
 CMAKE_ARGS+=("-DUSE_LMDB=OFF")
 CMAKE_ARGS+=("-DUSE_LEVELDB=OFF")
 CMAKE_ARGS+=("-DUSE_MPI=OFF")
-CMAKE_ARGS+=("-DUSE_OPENMP=OFF")
-CMAKE_ARGS+=("-DUSE_MKLDNN=OFF")
-CMAKE_ARGS+=("-DUSE_NNPACK=OFF")
 CMAKE_ARGS+=("-DUSE_NUMPY=OFF")
-CMAKE_ARGS+=("-DUSE_BLAS=OFF")
+CMAKE_ARGS+=("-DUSE_NNPACK=OFF")
+CMAKE_ARGS+=("-DUSE_MKLDNN=OFF")
+
+# Metal
+if [ "${USE_PYTORCH_METAL:-}" == "1" ]; then
+  CMAKE_ARGS+=("-DUSE_PYTORCH_METAL=ON")
+fi
+
+# Core ML
+if [ "${USE_COREML_DELEGATE}" == "1" ]; then
+  CMAKE_ARGS+=("-DUSE_COREML_DELEGATE=ON")
+fi
+
+# pthreads
+CMAKE_ARGS+=("-DCMAKE_THREAD_LIBS_INIT=-lpthread")
+CMAKE_ARGS+=("-DCMAKE_HAVE_THREADS_LIBRARY=1")
+CMAKE_ARGS+=("-DCMAKE_USE_PTHREADS_INIT=1")
+
+# enable ARC
+CMAKE_ARGS+=("-DCMAKE_CXX_FLAGS=-fobjc-arc")
 
 # Only toggle if VERBOSE=1
 if [ "${VERBOSE:-}" == '1' ]; then

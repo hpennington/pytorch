@@ -27,6 +27,8 @@ if [ "$(uname)" == 'Darwin' ]; then
   fi
 fi
 
+CMAKE_ARGS+=("-DUSE_OPENMP=OFF")
+
 # Use special install script with Anaconda
 if [ -n "${USE_ANACONDA}" ]; then
   export SKIP_CONDA_TESTS=1

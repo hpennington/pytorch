@@ -739,7 +739,6 @@ Tensor thnn_conv2d(const Tensor & self, const Tensor & weight, IntArrayRef kerne
   // See [Note: hacky wrapper removal for optional tensor]
   c10::MaybeOwned<Tensor> bias_maybe_owned = at::borrow_from_optional_tensor(bias_opt);
   const Tensor& bias = *bias_maybe_owned;
-
   return at::_slow_conv2d_forward(self, weight, kernel_size, bias, stride, padding);
 }
 

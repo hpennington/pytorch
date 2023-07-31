@@ -89,7 +89,7 @@
 #   USE_OPENCV
 #     enables use of OpenCV for additional operators
 #
-#   USE_OPENMP=0
+   USE_OPENMP=0
 #     disables use of OpenMP for parallelization
 #
 #   USE_FFMPEG
@@ -682,7 +682,7 @@ class build_ext(setuptools.command.build_ext.build_ext):
         # setup.py generates with g++ calls instead
         for command in all_commands:
             if command['command'].startswith("gcc "):
-                command['command'] = "g++ " + command['command'][4:]
+                command['command'] = "g++ " + command['command'][4:] + "-DUSA_LAPACK=0 -DUSE_OPENMP=0"
 
         new_contents = json.dumps(all_commands, indent=2)
         contents = ''

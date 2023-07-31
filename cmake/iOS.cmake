@@ -65,6 +65,8 @@ if(${IOS_PLATFORM} STREQUAL "OS")
 
     # This causes the installers to properly locate the output libraries
     set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
+elseif(${IOS_PLATFORM} STREQUAL "MAC_ARM")
+    set(XCODE_IOS_PLATFORM "MAC_ARM")
 elseif(${IOS_PLATFORM} STREQUAL "SIMULATOR")
     set(IOS_PLATFORM_LOCATION "iPhoneSimulator.platform")
     set(XCODE_IOS_PLATFORM iphonesimulator)

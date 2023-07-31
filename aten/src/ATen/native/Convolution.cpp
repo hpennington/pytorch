@@ -901,11 +901,15 @@ at::Tensor conv1d(
   bool is_batched;
   std::tie(input, is_batched) = batchify(input_, /*num_spatial_dims=*/ 1, "conv1d");
   Tensor output;
+
   if (at::isComplexType(input_.scalar_type())) {
+
     output = complex_convolution(input, weight, bias, stride, padding, dilation, false, {0}, groups);
   } else {
     output = at::convolution(input, weight, bias, stride, padding, dilation, false, {0}, groups);
   }
+
+
   return is_batched ? std::move(output) : output.squeeze(0);
 }
 
@@ -1158,10 +1162,10 @@ at::Tensor convolution(
   // See [Note: hacky wrapper removal for optional tensor]
   c10::MaybeOwned<Tensor> bias_maybe_owned = at::borrow_from_optional_tensor(bias_opt);
   const Tensor& bias = *bias_maybe_owned;
-
   auto& ctx = at::globalContext();
   // See Note [Enabling Deterministic Operations]
   bool deterministic = ctx.deterministicCuDNN() || ctx.deterministicAlgorithms();
+  // exit(-1);
   return at::_convolution(input, weight, bias, stride, padding, dilation,
                           transposed, output_padding, groups,
                           ctx.benchmarkCuDNN(), deterministic, ctx.userEnabledCuDNN(), ctx.allowTF32CuDNN());
@@ -1442,14 +1446,16 @@ at::MemoryFormat _determine_backend_memory_format(
 }
 
 at::Tensor _convolution(
+
     const Tensor& input_r, const Tensor& weight_r, const c10::optional<Tensor>& bias_r_opt,
     IntArrayRef stride_, IntArrayRef padding_, IntArrayRef dilation_,
     bool transposed_, IntArrayRef output_padding_, int64_t groups_,
     bool benchmark, bool deterministic, bool cudnn_enabled, bool allow_tf32) {
+
   // See [Note: hacky wrapper removal for optional tensor]
   c10::MaybeOwned<Tensor> bias_r_maybe_owned = at::borrow_from_optional_tensor(bias_r_opt);
   const Tensor& bias_r = *bias_r_maybe_owned;
-
+  
   auto input = input_r;
   auto weight = weight_r;
   auto bias = bias_r;
@@ -1490,10 +1496,15 @@ at::Tensor _convolution(
       (input.requires_grad() || weight.requires_grad() || (bias.defined() && bias.requires_grad()));
   ConvBackend backend = _select_conv_backend(input, weight, bias, c10::OptionalIntArrayRef(bias_sizes_opt), need_backward, params);
   at::MemoryFormat backend_memory_format = determine_backend_memory_format(input, weight, backend);
-
+  // exit(-1);
   // Call the backend.
+
   Tensor output;
   auto kernel_size = weight.sizes().slice(2);
+  
+  // std::ofstream outfile;
+  // outfile.open("/Users/haydenpennington/Desktop/log.txt");
+  // outfile << 
   switch (backend) {
     case ConvBackend::CudaDepthwise2d:
       output = at::_conv_depthwise2d(input.contiguous(), weight, kernel_size, bias,
@@ -1612,6 +1623,7 @@ at::Tensor _convolution(
           input.device().type(), input, weight, bias, params.stride, params.padding, params.groups);
       break;
     case ConvBackend::Xnnpack2d:
+      // exit(-1);
       output = xnnpack::convolution2d(
           input, weight, bias, params.padding, params.stride, params.dilation, params.groups);
       break;
@@ -1677,6 +1689,8 @@ at::Tensor _convolution(
   if (k == 3 && !input.is_mkldnn() && !input.is_xpu()) {
     output = view3d(output);
   }
+
+  
 
   return output;
 }
