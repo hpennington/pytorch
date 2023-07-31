@@ -166,13 +166,13 @@ option(SINGLETHREADED, ON)
 option(ATEN_NO_TEST "Do not build ATen test binaries" OFF)
 option(BUILD_BINARY "Build C++ binaries" OFF)
 option(BUILD_DOCS "Build Caffe2 documentation" OFF)
-option(BUILD_CUSTOM_PROTOBUF "Build and use Caffe2's own protobuf under third_party" OFF)
+option(BUILD_CUSTOM_PROTOBUF "Build and use Caffe2's own protobuf under third_party" ON)
 option(BUILD_PYTHON "Build Python binaries" OFF)
-option(BUILD_CAFFE2 "Master flag to build Caffe2" ON)
-option(BUILD_LITE_INTERPRETER "Master flag to build Lite Interpreter" ON)
+option(BUILD_CAFFE2 "Master flag to build Caffe2" OFF)
+option(BUILD_LITE_INTERPRETER "Master flag to build Lite Interpreter" OFF)
 cmake_dependent_option(
     BUILD_CAFFE2_OPS "Build Caffe2 operators" ON
-    "BUILD_CAFFE2" ON)
+    "BUILD_CAFFE2" OFF)
 option(BUILD_SHARED_LIBS "Build libcaffe2.so" OFF)
 cmake_dependent_option(
     CAFFE2_LINK_LOCAL_PROTOBUF "If set, build protobuf inside libcaffe2.so." ON
@@ -229,7 +229,7 @@ option(USE_MAGMA "Use MAGMA" ON)
 option(USE_METAL "Use Metal for Caffe2 iOS build" ON)
 option(USE_PYTORCH_METAL "Use Metal for PyTorch iOS build" ON)
 option(USE_PYTORCH_METAL_EXPORT "Export Metal models on MacOSX desktop" ON)
-option(USE_NATIVE_ARCH "Use -march=native" ON)
+option(USE_NATIVE_ARCH "Use -march=native" OFF)
 cmake_dependent_option(
     USE_TBB "Use TBB" OFF
     "USE_TBB" OFF)
