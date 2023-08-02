@@ -1,0 +1,13 @@
+lipo -create -output libc10.a ../../build_x86/lib/libc10.a ../../build_arm64/lib/libc10.a
+lipo -create -output libcaffe2_protos.a ../../build_x86/lib/libcaffe2_protos.a ../../build_arm64/lib/libcaffe2_protos.a
+lipo -create -output libclog.a ../../build_x86/lib/libclog.a ../../build_arm64/lib/libclog.a
+lipo -create -output libcpuinfo.a ../../build_x86/lib/libcpuinfo.a ../../build_arm64/lib/libcpuinfo.a
+lipo -create -output libfmt.a ../../build_x86/lib/libfmt.a ../../build_arm64/lib/libfmt.a
+lipo -create -output libfoxi_loader.a ../../build_x86/lib/libfoxi_loader.a ../../build_arm64/lib/libfoxi_loader.a
+lipo -create -output libkineto.a ../../build_x86/lib/libkineto.a ../../build_arm64/lib/libkineto.a
+lipo -create -output libonnx_proto.a ../../build_x86/lib/libonnx_proto.a ../../build_arm64/lib/libonnx_proto.a
+lipo -create -output libonnx.a ../../build_x86/lib/libonnx.a ../../build_arm64/lib/libonnx.a
+lipo -create -output libprotobuf.a ../../build_x86/lib/libprotobuf.a ../../build_arm64/lib/libprotobuf.a
+lipo -create -output libprotoc.a ../../build_x86/lib/libprotoc.a ../../build_arm64/lib/libprotoc.a
+lipo -create -output libtorch.a ../../build_x86/lib/libtorch.a ../../build_arm64/lib/libtorch.a
+lipo -create -output libtorch_cpu.a ../../build_x86/lib/libtorch_cpu.a ../../build_arm64/lib/libtorch_cpu.a

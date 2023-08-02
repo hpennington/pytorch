@@ -48,7 +48,7 @@ AT_INSTALL_SHARE_DIR:PATH=share
 BLAS:STRING=MKL
 
 //Path to a library.
-BLAS_Accelerate_LIBRARY:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Accelerate.framework
+BLAS_Accelerate_LIBRARY:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/Accelerate.framework
 
 //Marks whether BLAS was manually set by user or auto-detected
 BLAS_SET_BY_USER:STRING=FALSE
@@ -144,7 +144,7 @@ BUILD_TESTS:BOOL=
 Backtrace_HEADER:STRING=execinfo.h
 
 //Path to a file.
-Backtrace_INCLUDE_DIR:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+Backtrace_INCLUDE_DIR:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/include
 
 //Library providing backtrace(3), empty for default set of libraries
 Backtrace_LIBRARY:FILEPATH=
@@ -163,6 +163,9 @@ CAFFE2_USE_MSVC_STATIC_RUNTIME:BOOL=ON
 //Path to a program.
 CCACHE_PROGRAM:FILEPATH=/opt/homebrew/bin/ccache
 
+//Path to a program.
+CLANG_EXE_PATH:FILEPATH=/usr/bin/clang
+
 //Build clog tests
 CLOG_BUILD_TESTS:BOOL=OFF
 
@@ -172,37 +175,10 @@ CLOG_LOG_TO_STDIO:BOOL=ON
 CLOG_RUNTIME_TYPE:STRING=default
 
 //Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/llvm-addr2line
+CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
 
 //Path to a program.
 CMAKE_AR:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar
-
-//ASM compiler
-CMAKE_ASM_COMPILER:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/arm64-apple-darwin20.0.0-clang
-
-//LLVM archiver
-CMAKE_ASM_COMPILER_AR:FILEPATH=CMAKE_ASM_COMPILER_AR-NOTFOUND
-
-//`clang-scan-deps` dependency scanner
-CMAKE_ASM_COMPILER_CLANG_SCAN_DEPS:FILEPATH=CMAKE_ASM_COMPILER_CLANG_SCAN_DEPS-NOTFOUND
-
-//Generate index for LLVM archive
-CMAKE_ASM_COMPILER_RANLIB:FILEPATH=CMAKE_ASM_COMPILER_RANLIB-NOTFOUND
-
-//Flags used by the ASM compiler during all build types.
-CMAKE_ASM_FLAGS:STRING=
-
-//Flags used by the ASM compiler during DEBUG builds.
-CMAKE_ASM_FLAGS_DEBUG:STRING=-g
-
-//Flags used by the ASM compiler during MINSIZEREL builds.
-CMAKE_ASM_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
-
-//Flags used by the ASM compiler during RELEASE builds.
-CMAKE_ASM_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
-
-//Flags used by the ASM compiler during RELWITHDEBINFO builds.
-CMAKE_ASM_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
@@ -236,22 +212,13 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD:STRING=17
 
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/arm64-apple-darwin20.0.0-clang
-
-//LLVM archiver
-CMAKE_C_COMPILER_AR:FILEPATH=CMAKE_C_COMPILER_AR-NOTFOUND
-
-//`clang-scan-deps` dependency scanner
-CMAKE_C_COMPILER_CLANG_SCAN_DEPS:FILEPATH=CMAKE_C_COMPILER_CLANG_SCAN_DEPS-NOTFOUND
+CMAKE_C_COMPILER:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
 
 //C compiler launcher
 CMAKE_C_COMPILER_LAUNCHER:STRING=/opt/homebrew/bin/ccache
 
-//Generate index for LLVM archive
-CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
-
 //Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=-ftree-vectorize -fPIC -fPIE -fstack-protector-strong -O2 -pipe -isystem /opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+CMAKE_C_FLAGS:STRING=
 
 //Flags used by the C compiler during DEBUG builds.
 CMAKE_C_FLAGS_DEBUG:STRING=-g
@@ -269,10 +236,10 @@ CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_C_STANDARD:STRING=11
 
 //Path to a program.
-CMAKE_DLLTOOL:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/llvm-dlltool
+CMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND
 
 //Flags used by the linker during all build types.
-CMAKE_EXE_LINKER_FLAGS:STRING=-Wl,-pie -Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib -L/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+CMAKE_EXE_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during DEBUG builds.
 CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=
@@ -330,7 +297,7 @@ CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
 CMAKE_INSTALL_MANDIR:PATH=
 
 //Path to a program.
-CMAKE_INSTALL_NAME_TOOL:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/install_name_tool
+CMAKE_INSTALL_NAME_TOOL:FILEPATH=/usr/bin/install_name_tool
 
 //C header files for non-gcc (/usr/include)
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
@@ -358,7 +325,7 @@ CMAKE_MAKE_PROGRAM:FILEPATH=/opt/homebrew/bin/ninja
 
 //Flags used by the linker during the creation of modules during
 // all build types.
-CMAKE_MODULE_LINKER_FLAGS:STRING=-Wl,-pie -Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib -L/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+CMAKE_MODULE_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during the creation of modules during
 // DEBUG builds.
@@ -380,7 +347,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 CMAKE_NM:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm
 
 //Path to a program.
-CMAKE_OBJCOPY:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/llvm-objcopy
+CMAKE_OBJCOPY:FILEPATH=CMAKE_OBJCOPY-NOTFOUND
 
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump
@@ -390,7 +357,7 @@ CMAKE_OSX_ARCHITECTURES:STRING=
 
 //Minimum OS X version to target for deployment (at runtime); newer
 // APIs weak linked. Set to empty string for default value.
-CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
+CMAKE_OSX_DEPLOYMENT_TARGET:STRING=13.0
 
 //Location of OSX SDKs root directory
 CMAKE_OSX_DEVELOPER_ROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer
@@ -400,7 +367,7 @@ CMAKE_OSX_SDK_ROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/Mac
 
 //The product will be built against the headers and libraries located
 // inside the indicated SDK.
-CMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+CMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -430,11 +397,11 @@ CMAKE_PROJECT_VERSION_TWEAK:STATIC=
 CMAKE_RANLIB:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
 
 //Path to a program.
-CMAKE_READELF:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/llvm-readelf
+CMAKE_READELF:FILEPATH=CMAKE_READELF-NOTFOUND
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
-CMAKE_SHARED_LINKER_FLAGS:STRING=-Wl,-pie -Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib -L/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+CMAKE_SHARED_LINKER_FLAGS:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during DEBUG builds.
@@ -520,7 +487,7 @@ CPUINFO_LOG_LEVEL:STRING=error
 CPUINFO_RUNTIME_TYPE:STRING=default
 
 //cpuinfo source directory
-CPUINFO_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/cpuinfo
+CPUINFO_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/cmake/../third_party/cpuinfo
 
 //CXX AVX2 flags
 CXX_AVX2_FLAGS:STRING=
@@ -717,7 +684,7 @@ FMT_WERROR:BOOL=OFF
 FOXI_WERROR:BOOL=OFF
 
 //Value Computed by CMake
-FP16_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/fp16
+FP16_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/FP16
 
 //Build FP16 micro-benchmarks
 FP16_BUILD_BENCHMARKS:BOOL=OFF
@@ -730,28 +697,6 @@ FP16_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 FP16_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/FP16
-
-FXDIV_BUILD_BENCHMARKS:BOOL=OFF
-
-FXDIV_BUILD_TESTS:BOOL=OFF
-
-//FXdiv source directory
-FXDIV_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/FXdiv
-
-//Allow use of inline assembly in FXdiv
-FXDIV_USE_INLINE_ASSEMBLY:BOOL=OFF
-
-//Value Computed by CMake
-FXdiv_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/FXdiv
-
-//Value Computed by CMake
-FXdiv_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-FXdiv_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/FXdiv
-
-//Google Test source directory
-GOOGLETEST_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/googletest
 
 //Whether to add SOVERSION to the shared objects
 HAVE_SOVERSION:BOOL=OFF
@@ -777,20 +722,20 @@ KINETO_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/k
 LIBFFTW3:FILEPATH=LIBFFTW3-NOTFOUND
 
 //Path to a library.
-LIBGMP:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libgmp.dylib
+LIBGMP:FILEPATH=/opt/homebrew/lib/libgmp.dylib
 
 LIBKINETO_NOCUPTI:BOOL=ON
 
 LIBKINETO_NOROCTRACER:BOOL=ON
 
 //Path to a library.
-LIBM:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libm.tbd
+LIBM:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/lib/libm.tbd
 
 //Path to a library.
 LIBRT:FILEPATH=LIBRT-NOTFOUND
 
 //Path to a library.
-LIB_MPFR:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libmpfr.dylib
+LIB_MPFR:FILEPATH=/opt/homebrew/lib/libmpfr.dylib
 
 //Path to a file.
 MAGMA_INCLUDE_DIR:PATH=MAGMA_INCLUDE_DIR-NOTFOUND
@@ -811,38 +756,10 @@ MKL_LIBRARIES_mkl_intel_lp64_LIBRARY:FILEPATH=MKL_LIBRARIES_mkl_intel_lp64_LIBRA
 MKL_THREADING:STRING=OMP
 
 //Path to a file.
-MPFR_INCLUDE_DIR:PATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+MPFR_INCLUDE_DIR:PATH=/opt/homebrew/include
 
 //NEON available on ARM64
 NEON_FOUND:BOOL=true
-
-//Backend for micro-kernels implementation
-NNPACK_BACKEND:STRING=auto
-
-//Value Computed by CMake
-NNPACK_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/NNPACK
-
-NNPACK_BUILD_BENCHMARKS:BOOL=OFF
-
-//Build NNPACK unit tests
-NNPACK_BUILD_TESTS:BOOL=OFF
-
-//Build only NNPACK functions for convolutional layer
-NNPACK_CONVOLUTION_ONLY:BOOL=OFF
-
-//Build NNPACK for custom thread pool
-NNPACK_CUSTOM_THREADPOOL:BOOL=OFF
-
-//Build only NNPACK functions for inference
-NNPACK_INFERENCE_ONLY:BOOL=OFF
-
-//Value Computed by CMake
-NNPACK_IS_TOP_LEVEL:STATIC=OFF
-
-NNPACK_LIBRARY_TYPE:STRING=static
-
-//Value Computed by CMake
-NNPACK_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/NNPACK
 
 //Build ONNX micro-benchmarks
 ONNX_BUILD_BENCHMARKS:BOOL=OFF
@@ -883,34 +800,28 @@ ONNX_VERIFY_PROTO3:BOOL=OFF
 ONNX_WERROR:BOOL=OFF
 
 //Path to a library.
-OPENSSL_CRYPTO_LIBRARY:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libcrypto.dylib
+OPENSSL_CRYPTO_LIBRARY:FILEPATH=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib/libcrypto.dylib
 
 //Path to a file.
-OPENSSL_INCLUDE_DIR:PATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+OPENSSL_INCLUDE_DIR:PATH=/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
 
 //Path to a library.
-OPENSSL_SSL_LIBRARY:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libssl.dylib
+OPENSSL_SSL_LIBRARY:FILEPATH=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib/libssl.dylib
 
 //CXX compiler flags for OpenMP parallelization
-OpenMP_CXX_FLAGS:STRING=-Xclang -fopenmp
-
-//Path to a file.
-OpenMP_CXX_INCLUDE_DIR:PATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+OpenMP_CXX_FLAGS:STRING=NOTFOUND
 
 //CXX compiler libraries for OpenMP parallelization
-OpenMP_CXX_LIB_NAMES:STRING=libomp
+OpenMP_CXX_LIB_NAMES:STRING=NOTFOUND
 
 //C compiler flags for OpenMP parallelization
-OpenMP_C_FLAGS:STRING=-fopenmp=libomp
+OpenMP_C_FLAGS:STRING=NOTFOUND
 
 //C compiler libraries for OpenMP parallelization
-OpenMP_C_LIB_NAMES:STRING=omp
+OpenMP_C_LIB_NAMES:STRING=NOTFOUND
 
 //Path to a library.
-OpenMP_libomp_LIBRARY:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libomp.dylib
-
-//Path to the omp library for OpenMP
-OpenMP_omp_LIBRARY:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libomp.dylib
+OpenMP_libomp_LIBRARY:FILEPATH=OpenMP_libomp_LIBRARY-NOTFOUND
 
 //Arguments to supply to pkg-config
 PKG_CONFIG_ARGN:STRING=
@@ -924,56 +835,8 @@ PRINT_CMAKE_DEBUG_INFO:BOOL=FALSE
 //PSimd source directory
 PSIMD_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/psimd
 
-//Enable deprecated API functions
-PTHREADPOOL_ALLOW_DEPRECATED_API:BOOL=ON
-
-PTHREADPOOL_BUILD_BENCHMARKS:BOOL=OFF
-
-PTHREADPOOL_BUILD_TESTS:BOOL=OFF
-
-//Enable fast path using atomic decrement instead of atomic compare-and-swap
-PTHREADPOOL_ENABLE_FASTPATH:BOOL=OFF
-
-PTHREADPOOL_LIBRARY_TYPE:STRING=static
-
-//pthreadpool source directory
-PTHREADPOOL_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/pthreadpool
-
-//Synchronization primitive (condvar, futex, gcd, event, or default)
-// for worker threads
-PTHREADPOOL_SYNC_PRIMITIVE:STRING=default
-
-//enum34 (Python package) source directory
-PYTHON_ENUM_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/python-enum
-
 //Path to a program.
-PYTHON_EXECUTABLE:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/python
-
-//PeachPy (Python package) source directory
-PYTHON_PEACHPY_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/python-peachpy
-
-//six (Python package) source directory
-PYTHON_SIX_SOURCE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/python-six
-
-//Value Computed by CMake
-PYTORCH_QNNPACK_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/pytorch_qnnpack
-
-//Build QNNPACK benchmarks
-PYTORCH_QNNPACK_BUILD_BENCHMARKS:BOOL=OFF
-
-//Build QNNPACK unit tests
-PYTORCH_QNNPACK_BUILD_TESTS:BOOL=OFF
-
-//Build QNNPACK for custom thread pool
-PYTORCH_QNNPACK_CUSTOM_THREADPOOL:BOOL=OFF
-
-//Value Computed by CMake
-PYTORCH_QNNPACK_IS_TOP_LEVEL:STATIC=OFF
-
-PYTORCH_QNNPACK_LIBRARY_TYPE:STRING=static
-
-//Value Computed by CMake
-PYTORCH_QNNPACK_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/aten/src/ATen/native/quantized/cpu/qnnpack
+PYTHON_EXECUTABLE:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/bin/python
 
 //Path to a program.
 SDE_COMMAND:FILEPATH=SDE_COMMAND-NOTFOUND
@@ -1085,8 +948,6 @@ USE_GLOG:BOOL=OFF
 //Use ld.gold to link
 USE_GOLD_LINKER:BOOL=OFF
 
-USE_INTERNAL_PTHREADPOOL_IMPL:BOOL=OFF
-
 //Use Kineto profiling library
 USE_KINETO:BOOL=ON
 
@@ -1125,7 +986,7 @@ USE_NATIVE_ARCH:BOOL=OFF
 USE_NNAPI:BOOL=OFF
 
 //Use NNPACK
-USE_NNPACK:BOOL=ON
+USE_NNPACK:BOOL=OFF
 
 //Use NumPy
 USE_NUMPY:BOOL=ON
@@ -1151,7 +1012,7 @@ USE_PRECOMPILED_HEADERS:BOOL=ON
 //Use profiling
 USE_PROF:BOOL=OFF
 
-USE_PTHREADPOOL:BOOL=ON
+USE_PTHREADPOOL:BOOL=OFF
 
 //Use Metal for PyTorch iOS build
 USE_PYTORCH_METAL:BOOL=ON
@@ -1160,7 +1021,7 @@ USE_PYTORCH_METAL:BOOL=ON
 USE_PYTORCH_METAL_EXPORT:BOOL=ON
 
 //Use ATen/QNNPACK (quantized 8-bit operators)
-USE_PYTORCH_QNNPACK:BOOL=ON
+USE_PYTORCH_QNNPACK:BOOL=OFF
 
 //Use QNNPACK (quantized 8-bit operators)
 USE_QNNPACK:BOOL=OFF
@@ -1235,7 +1096,7 @@ USE_VULKAN_FP16_INFERENCE:BOOL=OFF
 USE_VULKAN_RELAXED_PRECISION:BOOL=OFF
 
 //Use XNNPACK
-USE_XNNPACK:BOOL=ON
+USE_XNNPACK:BOOL=OFF
 
 //Use ZMQ
 USE_ZMQ:BOOL=OFF
@@ -1248,60 +1109,6 @@ WERROR:BOOL=OFF
 
 //Blas type [accelerate/acml/atlas/blis/generic/goto/mkl/open/veclib]
 WITH_BLAS:STRING=
-
-//Value Computed by CMake
-XNNPACK_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/XNNPACK
-
-//Build XNNPACK benchmarks
-XNNPACK_BUILD_BENCHMARKS:BOOL=OFF
-
-//Build XNNPACK library
-XNNPACK_BUILD_LIBRARY:BOOL=ON
-
-//Build XNNPACK unit tests
-XNNPACK_BUILD_TESTS:BOOL=OFF
-
-//Build XNNPACK with ARM BF16 (BFLOAT16) micro-kernels
-XNNPACK_ENABLE_ARM_BF16:BOOL=OFF
-
-//Build XNNPACK with ARM DotProd (integer dot product) micro-kernels
-XNNPACK_ENABLE_ARM_DOTPROD:BOOL=ON
-
-//Build XNNPACK with ARM FP16 (FP16 data processing) scalar micro-kernels
-XNNPACK_ENABLE_ARM_FP16_SCALAR:BOOL=ON
-
-//Build XNNPACK with ARM FP16 (FP16 data processing) vector micro-kernels
-XNNPACK_ENABLE_ARM_FP16_VECTOR:BOOL=OFF
-
-//Build XNNPACK with assembly micro-kernels
-XNNPACK_ENABLE_ASSEMBLY:BOOL=ON
-
-//Build XNNPACK with support for selecting microkernel with different
-// MR
-XNNPACK_ENABLE_GEMM_M_SPECIALIZATION:BOOL=ON
-
-//Build XNNPACK with JIT micro-kernels
-XNNPACK_ENABLE_JIT:BOOL=OFF
-
-//Build XNNPACK with optimized memory allocation scheme
-XNNPACK_ENABLE_MEMOPT:BOOL=ON
-
-//Build XNNPACK with graph rewriting for sparse inference
-XNNPACK_ENABLE_SPARSE:BOOL=ON
-
-//XNNPACK include directory
-XNNPACK_INCLUDE_DIR:STRING=/Users/haydenpennington/Developer/pytorch/third_party/XNNPACK/include
-
-//Value Computed by CMake
-XNNPACK_IS_TOP_LEVEL:STATIC=OFF
-
-XNNPACK_LIBRARY_TYPE:STRING=static
-
-//Value Computed by CMake
-XNNPACK_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/XNNPACK
-
-//Use system-provided dependency libraries
-XNNPACK_USE_SYSTEM_LIBS:BOOL=OFF
 
 //Path to a library.
 _MPS_fwrk_path_:FILEPATH=/System/Library/Frameworks/MetalPerformanceShadersGraph.framework
@@ -1378,12 +1185,6 @@ metal:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platf
 //Path to a library.
 mps:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework
 
-//Dependencies for the target
-nnpack_LIB_DEPENDS:STATIC=general;cpuinfo;general;pthreadpool;
-
-//Dependencies for the target
-nnpack_reference_layers_LIB_DEPENDS:STATIC=general;pthreadpool;
-
 //Value Computed by CMake
 onnx_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/third_party/onnx
 
@@ -1400,10 +1201,10 @@ onnx_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/onn
 onnx_proto_LIB_DEPENDS:STATIC=general;protobuf::libprotobuf;
 
 //Path to a library.
-pkgcfg_lib__OPENSSL_crypto:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libcrypto.dylib
+pkgcfg_lib__OPENSSL_crypto:FILEPATH=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib/libcrypto.dylib
 
 //Path to a library.
-pkgcfg_lib__OPENSSL_ssl:FILEPATH=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libssl.dylib
+pkgcfg_lib__OPENSSL_ssl:FILEPATH=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib/libssl.dylib
 
 //Value Computed by CMake
 protobuf_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/third_party/protobuf/cmake
@@ -1455,18 +1256,6 @@ psimd_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 psimd_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/psimd
-
-//Value Computed by CMake
-pthreadpool_BINARY_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/build/confu-deps/pthreadpool
-
-//Value Computed by CMake
-pthreadpool_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-pthreadpool_SOURCE_DIR:STATIC=/Users/haydenpennington/Developer/pytorch/third_party/pthreadpool
-
-//Dependencies for the target
-pytorch_qnnpack_LIB_DEPENDS:STATIC=general;clog;general;cpuinfo;general;pthreadpool;
 
 
 ########################
@@ -1521,25 +1310,6 @@ CLOG_RUNTIME_TYPE-STRINGS:INTERNAL=default;static;shared
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_COMPILER
-CMAKE_ASM_COMPILER-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_COMPILER_AR
-CMAKE_ASM_COMPILER_AR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_COMPILER_CLANG_SCAN_DEPS
-CMAKE_ASM_COMPILER_CLANG_SCAN_DEPS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_COMPILER_RANLIB
-CMAKE_ASM_COMPILER_RANLIB-ADVANCED:INTERNAL=1
-CMAKE_ASM_COMPILER_WORKS:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_FLAGS
-CMAKE_ASM_FLAGS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_FLAGS_DEBUG
-CMAKE_ASM_FLAGS_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_FLAGS_MINSIZEREL
-CMAKE_ASM_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_FLAGS_RELEASE
-CMAKE_ASM_FLAGS_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_ASM_FLAGS_RELWITHDEBINFO
-CMAKE_ASM_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
 CMAKE_CACHEFILE_DIR:INTERNAL=/Users/haydenpennington/Developer/pytorch/build
 //Major version of cmake used to create the current loaded cache
@@ -1568,12 +1338,6 @@ CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_COMPILER
 CMAKE_C_COMPILER-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_AR
-CMAKE_C_COMPILER_AR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_CLANG_SCAN_DEPS
-CMAKE_C_COMPILER_CLANG_SCAN_DEPS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_RANLIB
-CMAKE_C_COMPILER_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS
 CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG
@@ -1670,7 +1434,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=36
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=31
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1723,8 +1487,6 @@ COMPILER_SUPPORTS_FLOAT128:INTERNAL=
 COMPILER_SUPPORTS_HIDDEN_INLINE_VISIBILITY:INTERNAL=1
 //Test COMPILER_SUPPORTS_HIDDEN_VISIBILITY
 COMPILER_SUPPORTS_HIDDEN_VISIBILITY:INTERNAL=1
-//Test COMPILER_SUPPORTS_OPENMP
-COMPILER_SUPPORTS_OPENMP:INTERNAL=1
 //Test COMPILER_SUPPORTS_RDYNAMIC
 COMPILER_SUPPORTS_RDYNAMIC:INTERNAL=1
 //Test COMPILER_SUPPORTS_SYS_GETRANDOM
@@ -1842,17 +1604,11 @@ C_HAS_AVX_3_COMPILED:INTERNAL=FALSE
 //Test C_HAS_THREAD
 C_HAS_THREAD:INTERNAL=1
 //Details about finding Backtrace
-FIND_PACKAGE_MESSAGE_DETAILS_Backtrace:INTERNAL=[/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include][v()]
-//Details about finding OpenMP
-FIND_PACKAGE_MESSAGE_DETAILS_OpenMP:INTERNAL=[TRUE][TRUE][c ][v5.0()]
-//Details about finding OpenMP_C
-FIND_PACKAGE_MESSAGE_DETAILS_OpenMP_C:INTERNAL=[-fopenmp=libomp][/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libomp.dylib][v5.0()]
-//Details about finding OpenMP_CXX
-FIND_PACKAGE_MESSAGE_DETAILS_OpenMP_CXX:INTERNAL=[-Xclang -fopenmp][/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libomp.dylib][v5.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Backtrace:INTERNAL=[/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/include][v()]
 //Details about finding OpenSSL
-FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib/libcrypto.dylib][/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include][c ][v3.1.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib/libcrypto.dylib][/opt/homebrew/Cellar/openssl@3/3.1.1_1/include][c ][v3.1.1()]
 //Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/bin/python][v3.8.16()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/opt/homebrew/Caskroom/miniforge/base/bin/python][v3.10.9()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Test HAS_FCOLOR_DIAGNOSTICS
@@ -1971,10 +1727,6 @@ MKL_LIBRARIES_mkl_intel_LIBRARY-ADVANCED:INTERNAL=1
 MKL_LIBRARIES_mkl_intel_lp64_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: NEON_FOUND
 NEON_FOUND-ADVANCED:INTERNAL=1
-//STRINGS property for variable: NNPACK_BACKEND
-NNPACK_BACKEND-STRINGS:INTERNAL=auto;psimd;scalar
-//STRINGS property for variable: NNPACK_LIBRARY_TYPE
-NNPACK_LIBRARY_TYPE-STRINGS:INTERNAL=default;static;shared
 //ADVANCED property for variable: OPENSSL_CRYPTO_LIBRARY
 OPENSSL_CRYPTO_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENSSL_INCLUDE_DIR
@@ -1982,81 +1734,61 @@ OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENSSL_SSL_LIBRARY
 OPENSSL_SSL_LIBRARY-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
-OpenMP_COMPILE_RESULT_CXX_Xclang fopenmp:INTERNAL=TRUE
+OpenMP_COMPILE_RESULT_CXX_Xclang fopenmp:INTERNAL=FALSE
 //Result of TRY_COMPILE
-OpenMP_COMPILE_RESULT_C_fopenmplibomp:INTERNAL=TRUE
+OpenMP_COMPILE_RESULT_C_Xclang fopenmp:INTERNAL=FALSE
 //ADVANCED property for variable: OpenMP_CXX_FLAGS
 OpenMP_CXX_FLAGS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenMP_CXX_INCLUDE_DIR
-OpenMP_CXX_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenMP_CXX_LIB_NAMES
 OpenMP_CXX_LIB_NAMES-ADVANCED:INTERNAL=1
-//CXX compiler's OpenMP specification date
-OpenMP_CXX_SPEC_DATE:INTERNAL=201811
 //ADVANCED property for variable: OpenMP_C_FLAGS
 OpenMP_C_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenMP_C_LIB_NAMES
 OpenMP_C_LIB_NAMES-ADVANCED:INTERNAL=1
-//C compiler's OpenMP specification date
-OpenMP_C_SPEC_DATE:INTERNAL=201811
-//Result of TRY_COMPILE
-OpenMP_SPECTEST_CXX_:INTERNAL=TRUE
-//Result of TRY_COMPILE
-OpenMP_SPECTEST_C_:INTERNAL=TRUE
 //ADVANCED property for variable: OpenMP_libomp_LIBRARY
 OpenMP_libomp_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: OpenMP_omp_LIBRARY
-OpenMP_omp_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-//STRINGS property for variable: PTHREADPOOL_LIBRARY_TYPE
-PTHREADPOOL_LIBRARY_TYPE-STRINGS:INTERNAL=default;static;shared
-//STRINGS property for variable: PTHREADPOOL_SYNC_PRIMITIVE
-PTHREADPOOL_SYNC_PRIMITIVE-STRINGS:INTERNAL=default;condvar;futex;gcd;event
 //ADVANCED property for variable: PYTHON_EXECUTABLE
 PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
-//STRINGS property for variable: PYTORCH_QNNPACK_LIBRARY_TYPE
-PYTORCH_QNNPACK_LIBRARY_TYPE-STRINGS:INTERNAL=default;static;shared
 //CHECK_TYPE_SIZE: sizeof(void*)
 SIZE_OF_VOIDP:INTERNAL=8
 //True for Aarch64 architecture.
 SLEEF_ARCH_AARCH64:INTERNAL=ON
 //Use system-provided Intel TBB.
 USE_SYSTEM_TBB:INTERNAL=OFF
-//STRINGS property for variable: XNNPACK_LIBRARY_TYPE
-XNNPACK_LIBRARY_TYPE-STRINGS:INTERNAL=default;static;shared
 //Have symbol backtrace
 _Backtrace_SYM_FOUND:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
-_OPENSSL_CFLAGS:INTERNAL=-I/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+_OPENSSL_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
 _OPENSSL_CFLAGS_I:INTERNAL=
 _OPENSSL_CFLAGS_OTHER:INTERNAL=
 _OPENSSL_FOUND:INTERNAL=1
-_OPENSSL_INCLUDEDIR:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
-_OPENSSL_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
-_OPENSSL_LDFLAGS:INTERNAL=-L/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib;-lssl;-lcrypto
+_OPENSSL_INCLUDEDIR:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
+_OPENSSL_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
+_OPENSSL_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib;-lssl;-lcrypto
 _OPENSSL_LDFLAGS_OTHER:INTERNAL=
-_OPENSSL_LIBDIR:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+_OPENSSL_LIBDIR:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib
 _OPENSSL_LIBRARIES:INTERNAL=ssl;crypto
-_OPENSSL_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+_OPENSSL_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib
 _OPENSSL_LIBS:INTERNAL=
 _OPENSSL_LIBS_L:INTERNAL=
 _OPENSSL_LIBS_OTHER:INTERNAL=
 _OPENSSL_LIBS_PATHS:INTERNAL=
 _OPENSSL_MODULE_NAME:INTERNAL=openssl
-_OPENSSL_PREFIX:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab
-_OPENSSL_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
+_OPENSSL_PREFIX:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1
+_OPENSSL_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
 _OPENSSL_STATIC_CFLAGS_I:INTERNAL=
 _OPENSSL_STATIC_CFLAGS_OTHER:INTERNAL=
-_OPENSSL_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/include
-_OPENSSL_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib;-lssl;-lcrypto
+_OPENSSL_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/include
+_OPENSSL_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib;-lssl;-lcrypto
 _OPENSSL_STATIC_LDFLAGS_OTHER:INTERNAL=
 _OPENSSL_STATIC_LIBDIR:INTERNAL=
 _OPENSSL_STATIC_LIBRARIES:INTERNAL=ssl;crypto
-_OPENSSL_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+_OPENSSL_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib
 _OPENSSL_STATIC_LIBS:INTERNAL=
 _OPENSSL_STATIC_LIBS_L:INTERNAL=
 _OPENSSL_STATIC_LIBS_OTHER:INTERNAL=
@@ -2076,7 +1808,7 @@ has_std_1z_flag:INTERNAL=1
 pkgcfg_lib__OPENSSL_crypto-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib__OPENSSL_ssl
 pkgcfg_lib__OPENSSL_ssl-ADVANCED:INTERNAL=1
-prefix_result:INTERNAL=/opt/homebrew/Caskroom/miniforge/base/envs/ai-audiolab/lib
+prefix_result:INTERNAL=/opt/homebrew/Cellar/openssl@3/3.1.1_1/lib
 //ADVANCED property for variable: protobuf_DEBUG_POSTFIX
 protobuf_DEBUG_POSTFIX-ADVANCED:INTERNAL=1
 //Test protobuf_HAVE_BUILTIN_ATOMICS
