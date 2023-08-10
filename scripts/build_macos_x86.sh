@@ -58,7 +58,7 @@ else
   fi
 
   # We are going to build the target into build.
-  BUILD_ROOT=${BUILD_ROOT:-"$CAFFE2_ROOT/build"}
+  BUILD_ROOT=${BUILD_ROOT:-"$CAFFE2_ROOT/build_x86"}
   mkdir -p "$BUILD_ROOT"
   cd "$BUILD_ROOT"
   echo "Building Caffe2 in: $BUILD_ROOT"

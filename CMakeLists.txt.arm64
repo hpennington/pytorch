@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 # even when the C++ one is detected as "AppleClang".
 cmake_policy(SET CMP0010 NEW)
 cmake_policy(SET CMP0025 NEW)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum OS X deployment version" FORCE)
 set(CMAKE_OSX_ARCHITECTURES "arm64")
 
 # Enables CMake to set LTO on compilers other than Intel.

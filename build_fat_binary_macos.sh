@@ -1,0 +1,14 @@
+rm -rf build_arm64 build_x86 build
+cp CMakeLists.txt.arm64 CMakeLists.txt
+
+DEBUG=0 USE_OPENMP=0 BUILD_SHARED_LIBS=OFF BUILD_PYTHON=0 USE_MPS=0 USE_CUDA=0 USE_CUDNN=0 BLAS=OpenBLAS USE_LAPACK=0 USE_KINET0=1 BUILD_CUSTOM_PROTOBUF=0 USE_NNPACK=0 USE_TBB=0 USE_SYSTEM_TBB=0 USE_OMP=0 USE_SYSTEM_PROTOBUF=1 IOS_PLATFORM=MAC_ARM IOS_ARCH=arm64 scripts/build_macos_arm64.sh
+
+cp CMakeLists.txt.x86 CMakeLists.txt
+
+DEBUG=0 USE_OPENMP=0 BUILD_SHARED_LIBS=OFF BUILD_PYTHON=0 USE_MPS=0 USE_CUDA=0 USE_CUDNN=0 BLAS=OpenBLAS USE_LAPACK=0 USE_KINET0=1 BUILD_CUSTOM_PROTOBUF=0 USE_NNPACK=0 USE_TBB=0 USE_SYSTEM_TBB=0 USE_OMP=0 USE_SYSTEM_PROTOBUF=1 IOS_PLATFORM=MAC arch -x86_64 scripts/build_macos_x86.sh
+
+mkdir -p build/lib && cd build/lib
+cp ../../scripts/create_fat_binary_lipo.sh ./
+bash create_fat_binary_lipo.sh
+ls
+cd ../../
